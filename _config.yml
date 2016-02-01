@@ -25,7 +25,7 @@ author:
   email:             adinagarajan1@gmail.com
 # List of pages to include at the top
 pages_list:       
-  About: '/about'
+  About: '/about/'
 #  Archive: '/archive/'
 
 # Custom vars
