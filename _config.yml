@@ -38,6 +38,7 @@ author:
 # List of pages to include at the top
 pages_list:       
   About: '/about/'
+  Publications: '/publications/'
 #  Archive: '/archive/'
 
 # Custom vars
