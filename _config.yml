@@ -5,9 +5,9 @@ permalink:           pretty
 relative_permalinks: true
 
 # Setup
-title:               Poole
-tagline:             The Jekyll Butler
-url:                 http://getpoole.com
+title:               Aditya Nagarajan
+tagline:             Aspiring Data Scientist
+url:                 http://adityanagara.github.io
 paginate:            1
 baseurl:             "http://adityanagara.github.io"
 
