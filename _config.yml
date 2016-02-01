@@ -9,7 +9,7 @@ title:               Poole
 tagline:             The Jekyll Butler
 url:                 http://getpoole.com
 paginate:            1
-baseurl:             ""
+baseurl:             "http://adityanagara.github.io"
 
 # Assets
 #
@@ -21,10 +21,10 @@ sass:
 # About/contact
 author:
   name:              Mark Otto
-  url:               https://twitter.com/mdo
-  email:             markdotto@gmail.com
+  url:               https://twitter.com/adinagarajan
+  email:             adinagarajan1@gmail.com
 
 # Custom vars
 version:             2.0.0
 github:
-  repo:              https://github.com/poole/poole
+  repo:              https://github.com/adityanagara/adityanagara.github.io
