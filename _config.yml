@@ -9,6 +9,12 @@ redcarpet:
 permalink:           pretty
 relative_permalinks: true
 
+# Includes an icon in the footer for each username you enter
+footer-links:
+  email:
+  github: adityanagara
+  linkedin: 
+
 # Setup
 title:               Aditya Nagarajan
 tagline:             Aspiring Data Scientist
