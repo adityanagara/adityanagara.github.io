@@ -20,9 +20,13 @@ sass:
 
 # About/contact
 author:
-  name:              Mark Otto
+  name:              Aditya Nagarajan
   url:               https://twitter.com/adinagarajan
   email:             adinagarajan1@gmail.com
+# List of pages to include at the top
+pages_list:       
+  About: '/about/'
+  Archive: '/archive/'
 
 # Custom vars
 version:             2.0.0
