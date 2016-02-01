@@ -11,9 +11,9 @@ relative_permalinks: true
 
 # Includes an icon in the footer for each username you enter
 footer-links:
-  email:
+  email: adinagarajan1@gmail.com
   github: adityanagara
-  linkedin: 
+  linkedin: adityanagara
 
 # Setup
 title:               Aditya Nagarajan
