@@ -2,29 +2,7 @@
 layout: page
 title: About
 ---
+I am graduate masters student studying operations research at [University of Massachusetts Amherst](http://engineering.umass.edu/). I am a Research Assistant at the Electrical and Computer Engineering Department working in the Engineering Research Center for Collaborative Sensing of the Atmosphere [(CASA)](http://www.casa.umass.edu/). My research is on using machine learning to develop a [precipitation nowcasting](http://www.ral.ucar.edu/general/press/brochures/nowcasting_broch_2014_04.pdf) algorithm by integrating data from various remote sensing sensors [NEXRAD radars](https://en.wikipedia.org/wiki/NEXRAD) and [GPS-Met networks](http://gpsmet.noaa.gov/). 
 
-<p class="message">
-  Hey there! This page is included as an example. Feel free to customize it for your own use upon downloading. Carry on!
-</p>
 
-In the novel, *The Strange Case of Dr. Jekyll and Mr. Hyde*, Mr. Poole is Dr. Jekyll's virtuous and loyal butler. Similarly, Poole is an upstanding and effective butler that helps you build Jekyll themes. It's made by [@mdo](https://twitter.com/mdo).
 
-There are currently two themes built on Poole:
-
-* [Hyde](http://hyde.getpoole.com)
-* [Lanyon](http://lanyon.getpoole.com)
-
-Learn more and contribute on [GitHub](https://github.com/poole).
-
-## Setup
-
-Some fun facts about the setup of this project include:
-
-* Built for [Jekyll](http://jekyllrb.com)
-* Developed on GitHub and hosted for free on [GitHub Pages](https://pages.github.com)
-* Coded with [Sublime Text 2](http://sublimetext.com), an amazing code editor
-* Designed and developed while listening to music like [Blood Bros Trilogy](https://soundcloud.com/maddecent/sets/blood-bros-series)
-
-Have questions or suggestions? Feel free to [open an issue on GitHub](https://github.com/poole/poole/issues/new) or [ask me on Twitter](https://twitter.com/mdo).
-
-Thanks for reading!
