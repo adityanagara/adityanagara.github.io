@@ -39,7 +39,6 @@ author:
 pages_list:       
   About: '/about/'
   Publications: '/publications/'
-  Resume: 'Resume.pdf'
 #  Archive: '/archive/'
 
 # Custom vars
