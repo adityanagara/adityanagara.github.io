@@ -15,10 +15,17 @@ If this is the case why are people not making use of water vapor measurements fo
 is that the amount of water vapor at any given time and at a given location is very difficult to measure. We thus believe
 a weather forecasting system with accurate measurements of water vapor at high temporal and spatial resolutions
 would benefit any weather forecasting/nowcasting system. The current methods to measure water vapor are as follows
+
 1. Radiosondes: A radiosonde is a battery powered telemetry instrument package with sensors for sampling various atmospheric variables as it is 
 carried up by a balloon from ground launch to between 20-30 km altitude (http://www.wrh.noaa.gov/rev/tour/UA/introduction.php). 
 While radiosondes have the advantage that they can measure the vertical distribution of water vapor, they have the distinct disadvantages that they are 
 typically only launched two times a day (at 0000 and 1200 UTC) and from only a handful of locations 
 (the entire CONUS is covered by a mere 90 radiosonde launch sites). 
+ 
+ 2. Radiometers
+ 
+ 3. Satellites
+ 
+ 4. GPS-Meteorology
  
  
