@@ -61,9 +61,24 @@ and processes the IPW for each station
 
 # Experimental Setup
 
-The domain of our interest is the Dallas Fort-Worth area Texas. The center of our domain is the KFWS radar in Dallas. We identify 
-44 GNSS stations which are in the range radius of the KFWS radar by parsing through all of the log files from the [CORS](ftp://geodesy.noaa.gov/cors/station_log/)
-database. We also locate 40 ASOS stations around the KFWS radar to obtain our meteorological data from. 
+The data set we will use for our nowcasting experiments comes from the Dallas-Fort-Worth (DFW) region. 
+Part of the infamous U.S. "tornado alley", DFW spring and summer weather is dominated by convective thunderstorms
+that move in lines generally from west to east through the region. We choose the DFW region because we understand
+its climatology (through CASA's more than 15 years of operating networks of weather radars in tornado alley, 
+first in Oklahoma and now in DFW) and because the DFW region has a high density of GPS receivers and
+weather stations whose data are publicly available on-line for our use.
+
+We take as the center of our region the NWS KFWS NEXRAD radar in Fort-Worth Texas.
+Within the 230 km coverage range of the radar we identified 44 Regional Reference Points, i.e., 
+high performance dual-frequency GPS receivers. These GPS receivers, which are operated by the 
+[Texas Dept. of Transportation (TxDOT)](http://www.txdot.gov/inside-txdot/division/information-technology/gps.html),
+were deployed to provide precise position information for Geodetic studies. As such these GPS receivers do not have 
+collocated weather stations. For the weather data (surface temperature, pressure, and relative humidity) 
+required for IPW estimation, we used data from the network of Automated Surface Observation Stations (ASOS) 
+operated by NOAA NWS. Figure 1 shows the relative locations of the GNSS receivers and 
+ASOS stations within the 230 km coverage range of the KFWS radar. 
+
+<img src="/pictures/GPS_ASOS_Locations.png" alt="Drawing" style="width: 200px;"/>
 
 The following video shows a storm case in the Dallas-Fort worth area on May 8th 2014. 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/2qXhBIHlfaM" frameborder="0" allowfullscreen></iframe>
