@@ -134,15 +134,15 @@ The above mentioned algorithm can be summarized with the following concept of op
 
 10. For each grid point
 
-  a. Calculate average NIPW for past 4 time epochs in 33 by 33 region around grid point.
+  1. Calculate average NIPW for past 4 time epochs in 33 by 33 region around grid point.
 
-  b.   Ditto for reflectivity.
+  2.   Ditto for reflectivity.
 
-  c.    Feed the above 8-vector into the appropriate trained random forest classifer to get the precipitation probability for the grid point for 1-hour in the future.
+  3.    Feed the above 8-vector into the appropriate trained random forest classifer to get the precipitation probability for the grid point for 1-hour in the future.
 
-  d.   If probability exceeds a given threshold, set the grid point to 1 (will rain next hour), otherwise set it to 0 (won’t rain next hour).
+  4.   If probability exceeds a given threshold, set the grid point to 1 (will rain next hour), otherwise set it to 0 (won’t rain next hour).
 
-  e.   FOR REAL-TIME OPERATION COULD UPDATE LEARNING BASED ON PERFORMANCE DURING LAST EPOCH
+  5.   FOR REAL-TIME OPERATION COULD UPDATE LEARNING BASED ON PERFORMANCE DURING LAST EPOCH
 
 11. End
 
