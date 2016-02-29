@@ -84,14 +84,31 @@ coverage range of the KFWS radar.
 ![Figure 1. Sensor map in the Dallas Fort-Worth area Texas](/pictures/GPS_ASOS_Locations.png)
 
 The following figure summarizes the data pipeline.
+{:.center}
+![Figure 1. Data pipeline to realize this nowcasting algorithm in realtime](/pictures/data_pipeline.png)
 
-![Figure 1. Sensor map in the Dallas Fort-Worth area Texas](/pictures/data_pipeline.png)
+We processes IPW data for the entire year of 2014. We obtain the met values from the ASOS stations in 30 minute intervals from 
+Dr. Teresa Van Hove from UCAR COSMIC. We got in touch with Dr. Van Hove through an e mail and requested for the met values
+for the year 2014. We were also able to get an LDM feed which gives us the real-time met values from each station. 
+
+Our first analysis was to plot a histogram for each station for each month to look for any seasonal variation of IPW. We
+found that IPW varies measured at each height and across the year where there is a higher monthly mean of IPW for the warmer
+spring and summer months and a lower mean for the winter months. We thus normalized the IPW values with respect to each station
+and each month to obtain a quantity which we term as NIPW (Normalized Integrated Water Vapor). 
+
+Once normalizing we look for correlations between NIPW and reflectivity fields. We plot the reflectivity fields over the NIPW
+fields for storm cases in 2014. The following movie shows the May 8th storm in the Dallas Fort-Worth area. 
 
 The following video shows a storm case in the Dallas-Fort worth area on May 8th 2014.
 {:.center} 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/2qXhBIHlfaM" frameborder="0" allowfullscreen></iframe>
 
+# Nowcasting Algorithm
+Our nowcasting algorithm currently predicts a binary value for each pixel indicating rain or no rain where rain is defined as 
+anything which exceeds 24 dbZ. We use the last 4 time steps of average NIPW field and average reflectivity field as features
+to our nowcasting algorithm. The figure below shows a schematic of our noecasting algorithm. 
 
+![Figure 1. Nowcasting Schematic](/pictures/nowcast_over_time.png)
 
 
 
