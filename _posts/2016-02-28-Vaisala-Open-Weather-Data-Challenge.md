@@ -85,7 +85,7 @@ coverage range of the KFWS radar.
 
 The following figure summarizes the data pipeline.
 
-![Figure 1. Sensor map in the Dallas Fort-Worth area Texas](/pictures/data_pipeline.jpg)
+![Figure 1. Sensor map in the Dallas Fort-Worth area Texas](/pictures/data_pipeline.png)
 
 The following video shows a storm case in the Dallas-Fort worth area on May 8th 2014.
 {:.center} 
