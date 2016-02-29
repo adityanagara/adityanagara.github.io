@@ -110,5 +110,44 @@ to our nowcasting algorithm. The figure below shows a schematic of our noecastin
 
 ![Figure 1. Nowcasting Schematic](/pictures/nowcast_over_time.png)
 
+The above mentioned algorithm can be summarized with the following concept of operation.  
+
+#CONOPS
+
+1. Get GPS data for current time epoch.
+
+2. Get ASOS data for current time epoch.
+
+3. Get NEXRAD reflectivity data for current time epoch.
+
+4. Map met data from ASOS stations to each GPS station and put in RINEX format (involves choosing closest ASOS station, transforming the data from ASOS station height to GPS station height, and putting the met data, surface pressure, surface temperature, and surface relative humidity, in RINEX format).
+
+5. Run GAMIT to get an IPW value for each GPS station.
+
+6. FOR REAL-TIME OPERATION, COULD MAINTAIN RUNNING AVERAGE/VARIANCE OF IPW AT EACH STATION
+
+7. Normalize IPW value (either with a running multi-day average or using historical monthly average) to eliminate height and other effects to get normalized IPW (NIPW) value for each GPS station.
+
+8. Use geospatial interpolation to interpolate NIPW values from each GPS station to the grid that defines the precipitation prediction domain.
+
+9. Map the NEXRAD reflectivity data from its polar coordinates to the same precipitation prediction grid.
+
+10. For each grid point
+
+a. Calculate average NIPW for past 4 time epochs in 33 by 33 region around grid point.
+
+b.   Ditto for reflectivity.
+
+c.    Feed the above 8-vector into the appropriate trained random forest classifer to get the precipitation probability for the grid point for 1-hour in the future.
+
+d.   If probability exceeds a given threshold, set the grid point to 1 (will rain next hour), otherwise set it to 0 (won’t rain next hour).
+
+e.   FOR REAL-TIME OPERATION COULD UPDATE LEARNING BASED ON PERFORMANCE DURING LAST EPOCH
+
+11. End
+
+12. Display predicted precipitation field (currently a binary field showing where dBZ is expected to exceed 24dBZ).
+
+
 
 
