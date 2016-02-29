@@ -78,7 +78,15 @@ required for IPW estimation, we used data from the network of Automated Surface 
 operated by NOAA NWS. Figure 1 shows the relative locations of the GNSS receivers and 
 ASOS stations within the 230 km coverage range of the KFWS radar. 
 
-<img src="/pictures/GPS_ASOS_Locations.png" alt="Drawing" style="width: 200px;"/>
+{:.center}
+![cardinal](/pictures/GPS_ASOS_Locations.png)  
+This is an image
+
+Hello!
+
+.center {
+  text-align: center;
+}
 
 The following video shows a storm case in the Dallas-Fort worth area on May 8th 2014. 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/2qXhBIHlfaM" frameborder="0" allowfullscreen></iframe>
