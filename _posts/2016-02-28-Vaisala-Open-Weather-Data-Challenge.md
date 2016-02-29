@@ -2,7 +2,7 @@
 layout: post
 title: Engineering a Nowcasting System using Open Data Sources
 comments: true 
-redirect_from: "/2016/02/28/Vaisala-Open-Weather-Data-Challenge/"
+redirect_from: "/2016/02/28/Vaisala-Open-Weather-Data-Challenge"
 permalink: vaisala-weather-data 
 ---
 # Introduction
@@ -54,9 +54,21 @@ We use this data to and interpolate it to our closest GNSS station.
 
 ## Open Source Software
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/DK_0jXPuIr0" frameborder="0" allowfullscreen></iframe>
+We use freely available software to process and analyse our data. 
 
-with a **youtube** video embedded
+1. GAMIT (GPS Analysis at MIT): The GAMIT software package takes in the input RINEX observation and meterological files
+and processes the IPW for each station
+
+# Experimental Setup
+
+The domain of our interest is the Dallas Fort-Worth area Texas. The center of our domain is the KFWS radar in Dallas. We identify 
+44 GNSS stations which are in the range radius of the KFWS radar by parsing through all of the log files from the [CORS](ftp://geodesy.noaa.gov/cors/station_log/)
+database. We also locate 40 ASOS stations around the KFWS radar to obtain our meteorological data from. 
+
+The following video shows a storm case in the Dallas-Fort worth area on May 8th 2014. 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/2qXhBIHlfaM" frameborder="0" allowfullscreen></iframe>
+
+
 
 
 
