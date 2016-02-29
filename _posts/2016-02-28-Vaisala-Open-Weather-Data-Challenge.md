@@ -59,7 +59,7 @@ We use freely available software to process and analyse our data.
 1. GAMIT (GPS Analysis at MIT): The GAMIT software package takes in the input RINEX observation and meterological files
 and processes the IPW for each station
 
-# Experimental Setup
+# Data Pipeline
 
 The data set we will use for our nowcasting experiments comes from the Dallas-Fort-Worth (DFW) region. 
 Part of the infamous U.S. "tornado alley", DFW spring and summer weather is dominated by convective thunderstorms
@@ -70,25 +70,25 @@ weather stations whose data are publicly available on-line for our use.
 
 We take as the center of our region the NWS KFWS NEXRAD radar in Fort-Worth Texas.
 Within the 230 km coverage range of the radar we identified 44 Regional Reference Points, i.e., 
-high performance dual-frequency GPS receivers. These GPS receivers, which are operated by the 
-[Texas Dept. of Transportation (TxDOT)](http://www.txdot.gov/inside-txdot/division/information-technology/gps.html),
-were deployed to provide precise position information for Geodetic studies. As such these GPS receivers do not have 
+high performance dual-frequency GPS receivers. We found these stations by parsing through [GNSS station log files](ftp://geodesy.noaa.gov/cors/station_log/). 
+Further we found out that these GNSS receivers are operated by the [Texas Dept. of Transportation (TxDOT)](http://www.txdot.gov/inside-txdot/division/information-technology/gps.html),
+and were deployed to provide precise position information for Geodetic studies. As such these GPS receivers do not have 
 collocated weather stations. For the weather data (surface temperature, pressure, and relative humidity) 
 required for IPW estimation, we used data from the network of Automated Surface Observation Stations (ASOS) 
-operated by NOAA NWS. Figure 1 shows the relative locations of the GNSS receivers and 
-ASOS stations within the 230 km coverage range of the KFWS radar. 
+operated by NOAA NWS. We find the closest ASOS station to each GNSS station and interpolate the meteorological
+variables from the MSL of the ASOS station to the MSL of the GNSS station. 
+Figure 1 shows the relative locations of the GNSS receivers and ASOS stations within the 230 km 
+coverage range of the KFWS radar. 
 
 {:.center}
-![cardinal](/pictures/GPS_ASOS_Locations.png)  
-This is an image
+![Figure 1. Sensor map in the Dallas Fort-Worth area Texas](/pictures/GPS_ASOS_Locations.png)
 
-Hello!
+The following figure summarizes the data pipeline.
 
-.center {
-  text-align: center;
-}
+![Figure 1. Sensor map in the Dallas Fort-Worth area Texas](/pictures/data_pipeline.jpg)
 
-The following video shows a storm case in the Dallas-Fort worth area on May 8th 2014. 
+The following video shows a storm case in the Dallas-Fort worth area on May 8th 2014.
+{:.center} 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/2qXhBIHlfaM" frameborder="0" allowfullscreen></iframe>
 
 
