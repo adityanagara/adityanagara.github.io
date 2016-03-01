@@ -138,7 +138,7 @@ video shows the reflectivity fields overlapped over the normalized precipitable 
 
 {:.center} 
 <iframe width="400" height="315" src="https://www.youtube.com/embed/2qXhBIHlfaM" frameborder="0" allowfullscreen></iframe>
-<img src="/pictures/colour_bar.png" width="200" height="200" />
+<img src="/pictures/colour_bar.png" width="200" height="200" align="right" />
 Our initial machine learning experiment is to learn a discriminative machine learning random forest classifier to predict rain
 or n rain 1 hour into the future for each pixel based on the last 4 time steps of precipitable water vapor and reflectivity foelds
 at 30 minute intervals. We further average the precipitable water and reflectivity field at each time step to obtain a feature
