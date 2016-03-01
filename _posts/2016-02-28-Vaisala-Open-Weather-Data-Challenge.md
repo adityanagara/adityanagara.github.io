@@ -64,7 +64,7 @@ Dr. Teresa Van Hove.<br>
 **Real time data:** The realtime feed from the ASOS stations is distributed thru the LDM protocol. Dr. Teresa also provided us with
 a LDM link so that we can get a feed of the real time ASOS data (suomildm1.cosmic.ucar.edu).  
 
-2. NOAA NEXRAD reflectivity products: We obtain the level III radar reflectivity products from the [NOAA NCDC](http://www.ncdc.noaa.gov/data-access/radar-data)
+3. NOAA NEXRAD reflectivity products: We obtain the level III radar reflectivity products from the [NOAA NCDC](http://www.ncdc.noaa.gov/data-access/radar-data)
 archive.<br> 
 **Real time data:** For real time operation we are developing a script which pulls the level II reflectivity products from
 NOAA NEXRAD reflectivity database on [Amazon S3](https://aws.amazon.com/noaa-big-data/nexrad/). 
