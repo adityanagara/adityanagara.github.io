@@ -8,13 +8,11 @@ permalink: vaisala-weather-data
 # Introduction
 Water vapor plays an important role in the atmosphere as it holds water in the vapor form which is
 capable of traveling both horizontally and vertically over a short span of time. This movement of water 
-vapor thus greatly affect the weather in a vary short time scale (the next few hours). Thus by measuring this quantity
+vapor greatly affect the weather in a vary short time scale (the next few hours). Thus by measuring this quantity
 with sufficient spatial and temporal resolution we can understand and predict severe storms better. 
 
-If this is the case why are people not making use of water vapor measurements for better predicting the weather? The answer 
-is that the amount of water vapor at any given time and at a given location is very difficult to measure. We believe
-a weather forecasting system with accurate measurements of water vapor at high temporal and spatial resolutions
-would benefit any weather forecasting/nowcasting system. The current methods to measure water vapor are as follows
+Water vapor is also a difficult quantity to measure and some of the existing methods do not capture its temporal and spatial variability
+required for operational forecasting. Some of the existing techniques to measure water vapor is as follows. 
 
 1. Radiosondes: A radiosonde is a battery powered telemetry instrument package with sensors for sampling various atmospheric variables as it is 
 carried up by a balloon from ground launch to between 20-30 km altitude (http://www.wrh.noaa.gov/rev/tour/UA/introduction.php). 
@@ -44,21 +42,13 @@ it has the advantage that it is accurate in all weather conditions and not impac
 
 Our solution for the Vaisala Open Weather data challenge is focused on using open source GNSS data from a dense network 
 of GNSS stations along with in-situ surface meterological observations to obtain a the amount of precipitable water vapor in the
-atmosphere. 
-
-Using water vapor our idea is to develop a nowcasting system which takes GPS data, surface meterological data and NEXRAD
-reflectivity data to generate precipitation nowcasts 1 hour into the future. 
+atmosphere. Using the water vapor derived from a network of GNSS stations and precipitation products from weather radars, our goal
+is to develop a nowcasting system which integrates this data from open data sources and nowcasts precipitation. 
 
 # Data and Software
-Our goal is to develop a nowcasting system which predicts precipitation fields 1 hour into the future. The nowcasting system uses
-precipitable water measured by a network of GNSS stations and as a proxy for precipitation we use radar reflectivity products from 
-a NEXRAD radar. Archived precipitable water vapor and reflectivity are trained using a Random Forest Machine Learning Classifier 
-on storm cases from 2014 which occurred in the DFW Texas region. The following section will discuss the data sources and software
-used in our nowcasting system. 
+This section explains all of our data sources and open source software packages used in our data pipeline. 
 
 ## Open Source Data
-The following data sources are used to download data for the storm cases we analyzed in 2014 in the DFW region. 
-
 1. GNSS(Global Navigation Satellite Systems) data: High precision GNSS signals from dual frequency receivers which operate continuously
 are in the form of RINEX (Receiver Independent Exchange format) files. These files contain pseudo range and carrier phase data 
 from each satellite in view at 30s intervals. For over a 1000 stations world wide RINEX files can be obtained from FTP servers maintained
@@ -126,24 +116,26 @@ for the entire year of 2014. We then feed the RINEX observation files (containin
 met data (containing pressure, temperature and relative humidity for each station) to the GAMIT software to obtain 30 minute 
 intervals of precipitable water vapor measurements for each station for the entire year of 2014. 
 
-We then normalize the precipitable water vapor with respect to each station and month to remove height dependencies in measurements
-and seasonal variation in precipitable water vapor. We then select 23 days from the storm season (May-August) in 2014 for our
+We then normalize the precipitable water vapor with respect to each station and month. This mainly serves two purposes one the measured
+water vapor will be different measured by GNSS stations at different heights and second the atmosphere can hold different amounts
+of water vapor at different times of the year. We then select 23 days from the storm season (May-August) in 2014 for our
 training/test set for our machine learning experiments. We choose days which have normalized precipitable water vapor values
 exceeding 2 standard deviations from normal and term these days as "Weather Anomalies". 
 
 We use the Multiquadric Interpolation technique suggested by (Tabios et al. 1985) to interpolate the point measurements of normalized precipitable
 water vapor to a field spaning 300 by 300 km centered on the KFWS radar with a resolution of 3km. The reflectivity fields are
-also converted from its native polar coordinates to cartesian coordinates to match the precipitable water fields. The following 
+also converted from its native polar coordinates to cartesian coordinates to match the resolution of the precipitable water fields. The following 
 video shows the reflectivity fields overlapped over the normalized precipitable water fields for a storm case on May 8th 2014 UTC. 
 
 {:.center} 
 <iframe width="450" height="315" src="https://www.youtube.com/embed/2qXhBIHlfaM" frameborder="0" allowfullscreen></iframe>
 <img src="/pictures/colour_bar.png" width="200" height="315" align="right" />
 
-Our initial machine learning experiment is to learn a discriminative machine learning random forest classifier to predict rain
-or n rain 1 hour into the future for each pixel based on the last 4 time steps of precipitable water vapor and reflectivity foelds
-at 30 minute intervals. We further average the precipitable water and reflectivity field at each time step to obtain a feature
-vector of size 8 for each prediction. 
+Our initial machine learning experiment is to learn Random Forest Classifier to predict rain
+or no rain(rain defined as pixel points exceeding 24 dbZ) 1 hour into the future for each pixel based 
+on the last 4 time steps of precipitable water vapor and reflectivity fields at 30 minute intervals. 
+As an initial step we crop the 33 by 33 field around each pixel for both the fields and average them which
+are features for our random forest classifier. 
 
 The random forest is trained and tested using a K-fold cross validation technique from the above mentioned 23 days. We perform 3
 sets of experiments as follows: 
@@ -158,7 +150,7 @@ The results of the above three experiments are evaluated using a precision recal
 As seen by the precision recall curves we can observe that the average precision score (area under the curve) evaluated by
 varying the decision probability for the IPW and reflectivity feature is the highest. The random forest classifier thus performs
 best when IPW features are concatenated with the reflectivity features. The following table shows additional metrics for our 
-nowcasting algorithm. 
+nowcasting algorithm where POD is Probability of Detection, FAR is False Alarm Rate and CSI is Critical Success Index. 
 
 |       | IPW  | Refl.| IPW + Refl.  |
 |:-----:|:----:|:----:|:------------:|
@@ -168,10 +160,10 @@ nowcasting algorithm.
 
 # Conclusion and Discussion
 In this solution we propose to build a data pipeline which integrates data from 3 different sources for a given region. We further
-used a Random Forest classifier to predict the precipitation fields 1 hour into the future. There is room for a lot of improvement 
-in our system as each of the blocks are modular. A single block can be optimized to improve the performance of the system. We measure
-performance by precision recall curves and standard nowcasting statistics POD, FAR and CSI. 
+used a random forest classifier to predict the precipitation fields 1 hour into the future. There is room for a lot of improvement 
+in our system. Our data pipeline is modular and thus a single block can be optimized independently to improve the performance of the system. We measure
+performance of the nowcasting system using precision recall curves and standard nowcasting metrics such as POD, FAR and CSI. 
 
-Our next step is to to build a feature engineering step which extracts the features from the precipitable water fields and 
+Our next step is to to build a feature engineering module which extracts the features from the precipitable water vapor fields and 
 the precipitation fields to predict the precipitation fields 1 hour in the future. We also plan to deploy our system in 
 real time before the storm season of 2016. 
