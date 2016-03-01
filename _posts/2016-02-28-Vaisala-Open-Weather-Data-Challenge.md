@@ -61,12 +61,12 @@ the meteorological data from ASOS stations in the 30 minute intervals, we obtain
 Dr. Teresa Van Hove from [UCAR COSMIC](http://www.suominet.ucar.edu/index.html) (Constellation Observing System for Meteorology, Ionosphere, and Climate)
 program. We downloaded the meteorological data for the year 2014 for select stations from a UCAR server from a link provided by
 Dr. Teresa Van Hove. 
-**real time data:** The realtime feed from the ASOS stations is distributed thru the LDM protocol. Dr. Teresa also provided us with
+**Real time data:** The realtime feed from the ASOS stations is distributed thru the LDM protocol. Dr. Teresa also provided us with
 a LDM link so that we can get a feed of the real time ASOS data (suomildm1.cosmic.ucar.edu).  
 
 2. NOAA NEXRAD reflectivity products: We obtain the level III radar reflectivity products from the [NOAA NCDC](http://www.ncdc.noaa.gov/data-access/radar-data)
 archive. 
-**real time data:** For real time operation we are developing a script which pulls the level II reflectivity products from
+**Real time data:** For real time operation we are developing a script which pulls the level II reflectivity products from
 NOAA NEXRAD reflectivity database on [Amazon S3](https://aws.amazon.com/noaa-big-data/nexrad/). 
 
 ## Open Source Software
