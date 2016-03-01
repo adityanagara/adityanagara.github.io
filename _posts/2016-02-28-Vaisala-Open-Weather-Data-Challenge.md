@@ -65,7 +65,7 @@ are in the form of RINEX (Receiver Independent Exchange format) files. These fil
 from each satellite in view at 30s intervals. For over a 1000 stations world wide RINEX files can be obtained from FTP servers maintained
 by three major organizations NOAA NGS [CORS](ftp://geodesy.noaa.gov/cors/)(Continuously Operated Reference Stations),
 [SOPAC](ftp://garner.ucsd.edu/pub/rinex/) (Scripps Orbit and Permanent Array Center), [IGS](ftp://igscb.jpl.nasa.gov/pub/station/) 
-(International GNSS Services).<br>  
+(International GNSS Services).  
 **Real time data:** The above mentioned servers also provide realtime data of the RINEX files for select stations. 
 
 2. Meteorological data: Since most of the GNSS stations in our study do not have co-located weather stations we interpolate
@@ -120,8 +120,8 @@ The figure below shows a map of all the sensors used in this study with respect 
 The following figure summarizes the data pipeline.
 {:.center}
 ![Figure 1. Data pipeline to realize this nowcasting algorithm in realtime](/pictures/data_pipeline.png)
-# Preliminary Experiments
 
+# Preliminary Experiments
 From the data sources listed above we obtain the GNSS RINEX files for all 44 stations, met observations from 40 ASOS stations
 for the entire year of 2014. We then feed the RINEX observation files (containing pseudo range and carrier phase) and RINEX
 met data (containing pressure, temperature and relative humidity for each station) to the GAMIT software to obtain 30 minute 
@@ -139,7 +139,7 @@ video shows the reflectivity fields overlapped over the normalized precipitable 
 
 {:.center} 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/2qXhBIHlfaM" frameborder="0" allowfullscreen></iframe>
-
+<img align="right" src="/pictures/colour_bar.png">
 Our initial machine learning experiment is to learn a discriminative machine learning random forest classifier to predict rain
 or n rain 1 hour into the future for each pixel based on the last 4 time steps of precipitable water vapor and reflectivity foelds
 at 30 minute intervals. We further average the precipitable water and reflectivity field at each time step to obtain a feature
