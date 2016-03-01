@@ -58,15 +58,15 @@ by three major organizations NOAA NGS [CORS](ftp://geodesy.noaa.gov/cors/)(Conti
 the meterological observations from a network of weather stations operated by NOAA [ASOS](http://www.nws.noaa.gov/asos/)(Automates Surface Observing Systems). 
 These stations record pressure, relative humidity and temperature in 30 minute intervals. After extensively searching the web for
 the meteorological data from ASOS stations in the 30 minute intervals, we obtained the data for the entire year of 2014 from 
-Dr. Teresa Van Hove from [UCAR COSMIC](http://www.suominet.ucar.edu/index.html)(Constellation Observing System for Meteorology, Ionosphere, and Climate)
+Dr. Teresa Van Hove from [UCAR COSMIC](http://www.suominet.ucar.edu/index.html) (Constellation Observing System for Meteorology, Ionosphere, and Climate)
 program. We downloaded the meteorological data for the year 2014 for select stations from a UCAR server from a link provided by
 Dr. Teresa Van Hove. 
-**real time data** The realtime feed from the ASOS stations is distributed thru the LDM protocol. Dr. Teresa also provided us with
+**real time data:** The realtime feed from the ASOS stations is distributed thru the LDM protocol. Dr. Teresa also provided us with
 a LDM link so that we can get a feed of the real time ASOS data (suomildm1.cosmic.ucar.edu).  
 
 2. NOAA NEXRAD reflectivity products: We obtain the level III radar reflectivity products from the [NOAA NCDC](http://www.ncdc.noaa.gov/data-access/radar-data)
 archive. 
-**real time data** For real time operation we are developing a script which pulls the level II reflectivity products from
+**real time data:** For real time operation we are developing a script which pulls the level II reflectivity products from
 NOAA NEXRAD reflectivity database on [Amazon S3](https://aws.amazon.com/noaa-big-data/nexrad/). 
 
 ## Open Source Software
@@ -88,17 +88,17 @@ its climatology (through CASA's more than 15 years of operating networks of weat
 first in Oklahoma and now in DFW) and because the DFW region has a high density of GPS receivers and
 weather stations whose data are publicly available on-line for our use.
 
-We take as the center of our region the NWS KFWS NEXRAD radar in Fort-Worth Texas.
+We take as the center of our domain the NWS KFWS NEXRAD radar in Fort-Worth Texas.
 Within the 230 km coverage range of the radar we identified 44 Regional Reference Points, i.e., 
-high performance dual-frequency GPS receivers. We found these stations by parsing through [GNSS station log files](ftp://geodesy.noaa.gov/cors/station_log/). 
-Further we found out that these GNSS receivers are operated by the [Texas Dept. of Transportation (TxDOT)](http://www.txdot.gov/inside-txdot/division/information-technology/gps.html),
+high performance dual-frequency GPS receivers. We found these stations by parsing through [GNSS station log files](ftp://geodesy.noaa.gov/cors/station_log/)
+and identifying the stations which are within the 230 km range radius. Further we found out that these GNSS receivers are operated by the [Texas Dept. of Transportation (TxDOT)](http://www.txdot.gov/inside-txdot/division/information-technology/gps.html),
 and were deployed to provide precise position information for Geodetic studies. As such these GPS receivers do not have 
 collocated weather stations. For the weather data (surface temperature, pressure, and relative humidity) 
 required for IPW estimation, we used data from the network of Automated Surface Observation Stations (ASOS) 
 operated by NOAA NWS. We find the closest ASOS station to each GNSS station and interpolate the meteorological
-variables from the MSL of the ASOS station to the MSL of the GNSS station. 
-Figure 1 shows the relative locations of the GNSS receivers and ASOS stations within the 230 km 
-coverage range of the KFWS radar. 
+variables from the MSL of the ASOS station to the MSL of the GNSS station as suggested by [(Bai et al 2003)](http://www.sage.unsw.edu.au/wang/jgps/v2n2/v2n2pB.pdf). 
+The near real-time water vapor system operated by [UCAR](http://www.suominet.ucar.edu/index.html) follows a similar principle. 
+The figure below shows a map of all the sensors used in this study with respect to the KFWS radar in Dallas Fort Worth. 
 
 {:.center}
 ![Figure 1. Sensor map in the Dallas Fort-Worth area Texas](/pictures/GPS_ASOS_Locations.png)
@@ -106,22 +106,44 @@ coverage range of the KFWS radar.
 The following figure summarizes the data pipeline.
 {:.center}
 ![Figure 1. Data pipeline to realize this nowcasting algorithm in realtime](/pictures/data_pipeline.png)
+# Preliminary Experiments
 
-We processes IPW data for the entire year of 2014. We obtain the met values from the ASOS stations in 30 minute intervals from 
-Dr. Teresa Van Hove from UCAR COSMIC. We got in touch with Dr. Van Hove through an e mail and requested for the met values
-for the year 2014. We were also able to get an LDM feed which gives us the real-time met values from each station. 
+From the data sources listed above we obtain the GNSS RINEX files for all 44 stations, met observations from 40 ASOS stations
+for the entire year of 2014. We then feed the RINEX observation files (containing pseudo range and carrier phase) and RINEX
+met data (containing pressure, temperature and relative humidity for each station) to the GAMIT software to obtain 30 minute 
+intervals of precipitable water vapor measurements for each station for the entire year of 2014. 
 
-Our first analysis was to plot a histogram for each station for each month to look for any seasonal variation of IPW. We
-found that IPW varies measured at each height and across the year where there is a higher monthly mean of IPW for the warmer
-spring and summer months and a lower mean for the winter months. We thus normalized the IPW values with respect to each station
-and each month to obtain a quantity which we term as NIPW (Normalized Integrated Water Vapor). 
+We then normalize the precipitable water vapor with respect to each station and month to remove height dependencies in measurements
+and seasonal variation in precipitable water vapor. We then select 23 days from the storm season (May-August) in 2014 for our
+training/test set for our machine learning experiments. We choose days which have normalized precipitable water vapor values
+exceeding 2 standard deviations from normal and term these days as "Weather Anomalies". 
 
-Once normalizing we look for correlations between NIPW and reflectivity fields. We plot the reflectivity fields over the NIPW
-fields for storm cases in 2014. The following movie shows the May 8th storm in the Dallas Fort-Worth area. 
+We use the Multiquadric Interpolation technique suggested by () to interpolate the point measurements of normalized precipitable
+water vapor to a field spaning 300 by 300 km centered on the KFWS radar with a resolution of 3km. The reflectivity fields are
+also converted from its native polar coordinates to cartesian coordinates to match the precipitable water fields. The following 
+video shows the reflectivity fields overlapped over the normalized precipitable water fields for a storm case on May 8th 2014 UTC. 
 
-The following video shows a storm case in the Dallas-Fort worth area on May 8th 2014.
 {:.center} 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/2qXhBIHlfaM" frameborder="0" allowfullscreen></iframe>
+
+Our initial machine learning experiment is to learn a discriminative machine learning random forest classifier to predict rain
+or n rain 1 hour into the future for each pixel based on the last 4 time steps of precipitable water vapor and reflectivity foelds
+at 30 minute intervals. We further average the precipitable water and reflectivity field at each time step to obtain a feature
+vector of size 8 for each prediction. 
+
+The random forest is trained and tested using a K-fold cross validation technique from the above mentioned 23 days. We perform 3
+sets of experiments as follows: 
+1. Use precipitable water features only
+2. Use reflectivity features only
+3. Use both precipitable water and reflectivity features. 
+
+The results of the above three experiments are evaluated using a precision recall curve as shown below. 
+
+![Figure 1. Nowcasting Schematic](/pictures/random_forest_average_precision.png)
+
+As seen by the precision recall curves we can observe that the average precision score (area under the curve) evaluated by
+varying the decision probability for the IPW and reflectivity feature is the highest. The random forest classifier thus performs
+best when IPW features are concatenated with the reflectivity features. 
 
 # Nowcasting Algorithm
 Our nowcasting algorithm currently predicts a binary value for each pixel indicating rain or no rain where rain is defined as 
