@@ -16,31 +16,31 @@ is that the amount of water vapor at any given time and at a given location is v
 a weather forecasting system with accurate measurements of water vapor at high temporal and spatial resolutions
 would benefit any weather forecasting/nowcasting system. The current methods to measure water vapor are as follows
 
- 1. Radiosondes: A radiosonde is a battery powered telemetry instrument package with sensors for sampling various atmospheric variables as it is 
+1. Radiosondes: A radiosonde is a battery powered telemetry instrument package with sensors for sampling various atmospheric variables as it is 
 carried up by a balloon from ground launch to between 20-30 km altitude (http://www.wrh.noaa.gov/rev/tour/UA/introduction.php). 
 While radiosondes have the advantage that they can measure the vertical distribution of water vapor, they have the distinct disadvantages that they are 
 typically only launched two times a day (at 0000 and 1200 UTC) and from only a handful of locations 
 (the entire CONUS is covered by a mere 90 radiosonde launch sites). 
  
- 2. Radiometers: Ground-based water vapor radiometers measure the background microwave radiation emitted by 
- atmospheric water vapor along a given line of site. 
- An advantage of these instruments is their ability to make continuous measurements of water vapor. 
- Disadvantages are cost, calibration, and sparse spatial deployment. They are also limited in that 
- they do not work when it is raining.
+2. Radiometers: Ground-based water vapor radiometers measure the background microwave radiation emitted by 
+atmospheric water vapor along a given line of site. 
+An advantage of these instruments is their ability to make continuous measurements of water vapor. 
+Disadvantages are cost, calibration, and sparse spatial deployment. They are also limited in that 
+they do not work when it is raining.
  
- 3. Satellites: The GOES (Geostationary Operational Environmental Satellite) system provides two sources of 
- information about the water vapor imagery through its water vapor channel 
- (at 4km spatial resolution, 15 min temporal resolution), and sounder retrievals (at 20km spatial resolution, 
- 1hr temporal resolution). Both of these observations, however, are negatively impacted by cloud cover.
+3. Satellites: The GOES (Geostationary Operational Environmental Satellite) system provides two sources of 
+information about the water vapor imagery through its water vapor channel 
+(at 4km spatial resolution, 15 min temporal resolution), and sounder retrievals (at 20km spatial resolution, 
+1hr temporal resolution). Both of these observations, however, are negatively impacted by cloud cover.
  
- 4. GPS-Meteorology: GPS-meteorology (GPS-Met) is a technique that allows GPS receivers to simultaneously perform the 
- multiple functions of position estimation and precipitable water vapor estimation. For a given GPS receiver, 
- precipitable water vapor estimates can be made with 30-minute temporal resolution. In regions, such as the middle 
- and western U.S., where there is a high density of Continuously Operated GPS Reference Stations (CORS). 
- Techniques have been developed to combine the water vapor measurements from multiple stations into 2D and 
- 3D water vapor fields. The spatial resolution of the field depends on the density of GPS stations (spatial Nyquist). 
- While GPS-Met currently cannot provide the spatial and temporal resolution of that of GOES satellite, 
- it has the advantage that it is accurate in all weather conditions and not impacted by clouds or precipitation.
+4. GPS-Meteorology: GPS-meteorology (GPS-Met) is a technique that allows GPS receivers to simultaneously perform the 
+multiple functions of position estimation and precipitable water vapor estimation. For a given GPS receiver, 
+precipitable water vapor estimates can be made with 30-minute temporal resolution. In regions, such as the middle 
+and western U.S., where there is a high density of Continuously Operated GPS Reference Stations (CORS). 
+Techniques have been developed to combine the water vapor measurements from multiple stations into 2D and 
+3D water vapor fields. The spatial resolution of the field depends on the density of GPS stations (spatial Nyquist). 
+While GPS-Met currently cannot provide the spatial and temporal resolution of that of GOES satellite, 
+it has the advantage that it is accurate in all weather conditions and not impacted by clouds or precipitation.
 
 Our solution for the Vaisala Open Weather data challenge is focused on using open source GNSS data from a dense network 
 of GNSS stations along with in-situ surface meterological observations to obtain a the amount of precipitable water vapor in the
@@ -116,7 +116,7 @@ The figure below shows a map of all the sensors used in this study with respect 
 {:.center}
 ![Figure 1. Sensor map in the Dallas Fort-Worth area Texas](/pictures/GPS_ASOS_Locations.png)
 
-The following figure summarizes the data pipeline.
+The following figure summarizes the data pipeline which includes all of out input data bases to our output products. 
 {:.center}
 ![Figure 1. Data pipeline to realize this nowcasting algorithm in realtime](/pictures/data_pipeline.png)
 
@@ -175,45 +175,3 @@ performance by precision recall curves and standard nowcasting statistics POD, F
 Our next step is to to build a feature engineering step which extracts the features from the precipitable water fields and 
 the precipitation fields to predict the precipitation fields 1 hour in the future. We also plan to deploy our system in 
 real time before the storm season of 2016. 
-
-![Figure 1. Nowcasting Schematic](/pictures/nowcast_over_time.png)
-
-The above mentioned algorithm can be summarized with the following concept of operation.  
-
-# CONOPS
-
-1. Get GPS data for current time epoch.
-
-2. Get ASOS data for current time epoch.
-
-3. Get NEXRAD reflectivity data for current time epoch.
-
-4. Map met data from ASOS stations to each GPS station and put in RINEX format (involves choosing closest ASOS station, transforming the data from ASOS station height to GPS station height, and putting the met data, surface pressure, surface temperature, and surface relative humidity, in RINEX format).
-
-5. Run GAMIT to get an IPW value for each GPS station.
-
-6. FOR REAL-TIME OPERATION, COULD MAINTAIN RUNNING AVERAGE/VARIANCE OF IPW AT EACH STATION
-
-7. Normalize IPW value (either with a running multi-day average or using historical monthly average) to eliminate height and other effects to get normalized IPW (NIPW) value for each GPS station.
-
-8. Use geospatial interpolation to interpolate NIPW values from each GPS station to the grid that defines the precipitation prediction domain.
-
-9. Map the NEXRAD reflectivity data from its polar coordinates to the same precipitation prediction grid.
-
-10. For each grid point
-  1. Calculate average NIPW for past 4 time epochs in 33 by 33 region around grid point.
-
-  2. Ditto for reflectivity.
-
-  3. Feed the above 8-vector into the appropriate trained random forest classifer to get the precipitation probability for the grid point for 1-hour in the future.
-
-  4. If probability exceeds a given threshold, set the grid point to 1 (will rain next hour), otherwise set it to 0 (won’t rain next hour).
-
-  5. FOR REAL-TIME OPERATION COULD UPDATE LEARNING BASED ON PERFORMANCE DURING LAST EPOCH
-11. End
-
-12. Display predicted precipitation field (currently a binary field showing where dBZ is expected to exceed 24dBZ).
-
-
-
-
