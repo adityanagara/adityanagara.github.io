@@ -12,7 +12,7 @@ vapor thus greatly affect the weather in a vary short time scale (the next few h
 with sufficient spatial and temporal resolution we can understand and predict severe storms better. 
 
 If this is the case why are people not making use of water vapor measurements for better predicting the weather? The answer 
-is that the amount of water vapor at any given time and at a given location is very difficult to measure. We thus believe
+is that the amount of water vapor at any given time and at a given location is very difficult to measure. We believe
 a weather forecasting system with accurate measurements of water vapor at high temporal and spatial resolutions
 would benefit any weather forecasting/nowcasting system. The current methods to measure water vapor are as follows
 
@@ -29,22 +29,22 @@ typically only launched two times a day (at 0000 and 1200 UTC) and from only a h
  they do not work when it is raining.
  
  3. Satellites: The GOES (Geostationary Operational Environmental Satellite) system provides two sources of 
- information about the water vapor \cite{forsythe2015multisensor}: imagery through its water vapor channel 
+ information about the water vapor imagery through its water vapor channel 
  (at 4km spatial resolution, 15 min temporal resolution), and sounder retrievals (at 20km spatial resolution, 
  1hr temporal resolution). Both of these observations, however, are negatively impacted by cloud cover.
  
  4. GPS-Meteorology: GPS-meteorology (GPS-Met) is a technique that allows GPS receivers to simultaneously perform the 
  multiple functions of position estimation and precipitable water vapor estimation. For a given GPS receiver, 
  precipitable water vapor estimates can be made with 30-minute temporal resolution. In regions, such as the middle 
- and western U.S., where there is a high density of Continuously Operated GPS Reference Stations (CORS), 
- techniques have been developed to combine the water vapor measurements from multiple stations into 2D and 
+ and western U.S., where there is a high density of Continuously Operated GPS Reference Stations (CORS). 
+ Techniques have been developed to combine the water vapor measurements from multiple stations into 2D and 
  3D water vapor fields. The spatial resolution of the field depends on the density of GPS stations (spatial Nyquist). 
  While GPS-Met currently cannot provide the spatial and temporal resolution of that of GOES satellite, 
  it has the advantage that it is accurate in all weather conditions and not impacted by clouds or precipitation.
 
-Our solution for the Vaisala Open Weather data challenge is focused on using open source GPS data from a dense network 
-of GPS stations along with in-situ surface meterological observations to obtain a quantity called IPW or Integrated 
-Precipitable Water Vapor. 
+Our solution for the Vaisala Open Weather data challenge is focused on using open source GNSS data from a dense network 
+of GNSS stations along with in-situ surface meterological observations to obtain a the amount of precipitable water vapor in the
+atmosphere. 
 
 Using water vapor our idea is to develop a nowcasting system which takes GPS data, surface meterological data and NEXRAD
 reflectivity data to generate precipitation nowcasts 1 hour into the future. 
@@ -57,19 +57,18 @@ on storm cases from 2014 which occurred in the DFW Texas region. The following s
 used in our nowcasting system. 
 
 ## Open Source Data
-Since our nowcasting system uses precipitable water vapor along with precipitation fields (radar reflectivity) we use the 
-following data sources to get the data for the entire year of 2014. 
+The following data sources are used to download data for the storm cases we analyzed in 2014 in the DFW region. 
 
 1. GNSS(Global Navigation Satellite Systems) data: High precision GNSS signals from dual frequency receivers which operate continuously
 are in the form of RINEX (Receiver Independent Exchange format) files. These files contain pseudo range and carrier phase data 
 from each satellite in view at 30s intervals. For over a 1000 stations world wide RINEX files can be obtained from FTP servers maintained
-by three major organizations NOAA NGS [CORS](ftp://geodesy.noaa.gov/cors/)(Continuously Operated Reference Stations),
+by organizations such as NOAA NGS [CORS](ftp://geodesy.noaa.gov/cors/)(Continuously Operated Reference Stations),
 [SOPAC](ftp://garner.ucsd.edu/pub/rinex/) (Scripps Orbit and Permanent Array Center), [IGS](ftp://igscb.jpl.nasa.gov/pub/station/) 
 (International GNSS Services).  
 **Real time data:** The above mentioned servers also provide realtime data of the RINEX files for select stations. 
 
 2. Meteorological data: Since most of the GNSS stations in our study do not have co-located weather stations we interpolate
-the meterological observations from a network of weather stations operated by NOAA [ASOS](http://www.nws.noaa.gov/asos/)(Automates Surface Observing Systems). 
+the meterological observations from a network of weather stations operated by NOAA NWS called [ASOS](http://www.nws.noaa.gov/asos/)(Automates Surface Observing Systems). 
 These stations record pressure, relative humidity and temperature in 30 minute intervals. After extensively searching the web for
 the meteorological data from ASOS stations in the 30 minute intervals, we obtained the data for the entire year of 2014 from 
 Dr. Teresa Van Hove from [UCAR COSMIC](http://www.suominet.ucar.edu/index.html) (Constellation Observing System for Meteorology, Ionosphere, and Climate)
@@ -138,8 +137,8 @@ also converted from its native polar coordinates to cartesian coordinates to mat
 video shows the reflectivity fields overlapped over the normalized precipitable water fields for a storm case on May 8th 2014 UTC. 
 
 {:.center} 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/2qXhBIHlfaM" frameborder="0" allowfullscreen></iframe>
-<img align="right" src="/pictures/colour_bar.png">
+<iframe width="400" height="315" src="https://www.youtube.com/embed/2qXhBIHlfaM" frameborder="0" allowfullscreen></iframe>
+<img src="/pictures/colour_bar.png" width="200" height="200" />
 Our initial machine learning experiment is to learn a discriminative machine learning random forest classifier to predict rain
 or n rain 1 hour into the future for each pixel based on the last 4 time steps of precipitable water vapor and reflectivity foelds
 at 30 minute intervals. We further average the precipitable water and reflectivity field at each time step to obtain a feature
@@ -160,16 +159,21 @@ varying the decision probability for the IPW and reflectivity feature is the hig
 best when IPW features are concatenated with the reflectivity features. The following table shows additional metrics for our 
 nowcasting algorithm. 
 
-|     | IPW  | Refl.| IPW + Refl.  |
-|-----| ---- |:----:| ------------:|
-|POD  | 0.17 | 0.38 |0.56          |
-|FAR  | 0.23 | 0.29 |0.15          |
-|CSI  | 0.16 | 0.33 |0.51          |
+|       | IPW  | Refl.| IPW + Refl.  |
+|:-----:|:----:|:----:|:------------:|
+|POD    | 0.17 | 0.38 |0.56          |
+|FAR    | 0.23 | 0.29 |0.15          |
+|CSI    | 0.16 | 0.33 |0.51          |
 
-# Nowcasting Algorithm
-Our nowcasting algorithm currently predicts a binary value for each pixel indicating rain or no rain where rain is defined as 
-anything which exceeds 24 dbZ. We use the last 4 time steps of average NIPW field and average reflectivity field as features
-to our nowcasting algorithm. The figure below shows a schematic of our noecasting algorithm. 
+# Conclusion and Discussion
+In this solution we propose to build a data pipeline which integrates data from 3 different sources for a given region. We further
+used a Random Forest classifier to predict the precipitation fields 1 hour into the future. There is room for a lot of improvement 
+in our system as each of the blocks are modular. A single block can be optimized to improve the performance of the system. We measure
+performance by precision recall curves and standard nowcasting statistics POD, FAR and CSI. 
+
+Our next step is to to build a feature engineering step which extracts the features from the precipitable water fields and 
+the precipitation fields to predict the precipitation fields 1 hour in the future. We also plan to deploy our system in 
+real time before the storm season of 2016. 
 
 ![Figure 1. Nowcasting Schematic](/pictures/nowcast_over_time.png)
 
