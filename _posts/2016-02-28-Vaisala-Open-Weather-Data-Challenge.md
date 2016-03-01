@@ -35,29 +35,49 @@ Precipitable Water Vapor.
 Using water vapor our idea is to develop a nowcasting system which takes GPS data, surface meterological data and NEXRAD
 reflectivity data to generate precipitation nowcasts 1 hour into the future. 
 
-#Data and Software
+# Data and Software
+Our goal is to develop a nowcasting system which predicts precipitation fields 1 hour into the future. The nowcasting system uses
+precipitable water measured by a network of GNSS stations and as a proxy for precipitation we use radar reflectivity products from 
+a NEXRAD radar. Archived precipitable water vapor and reflectivity are trained using a Random Forest Machine Learning Classifier 
+on storm cases from 2014 which occurred in the DFW Texas region. The following section will discuss the data sources and software
+used in our nowcasting system. 
+
 ## Open Source Data
-Our nowcasting system which we term as "Deep Nowcaster" uses data from the following open data sources and software. 
+Since our nowcasting system uses precipitable water vapor along with precipitation fields (radar reflectivity) we use the 
+following data sources to get the data for the entire year of 2014. 
 
-1. GNSS data: The GNSS data from all GNSS stations operated world wide are available from BGS [CORS](ftp://geodesy.noaa.gov/cors/) (Continuously Operated 
-Reference Stations), [SOPAC](ftp://garner.ucsd.edu/pub/rinex/) (Scripps Orbit and Permanent Array Center) and [IGS](ftp://igscb.jpl.nasa.gov/pub/station/). 
+1. GNSS(Global Navigation Satellite Systems) data: High precision GNSS signals from dual frequency receivers which operate continuously
+are in the form of RINEX (Receiver Independent Exchange format) files. These files contain pseudo range and carrier phase data 
+from each satellite in view at 30s intervals. For over a 1000 stations world wide RINEX files can be obtained from FTP servers maintained
+by three major organizations NOAA NGS [CORS](ftp://geodesy.noaa.gov/cors/)(Continuously Operated Reference Stations),
+[SOPAC](ftp://garner.ucsd.edu/pub/rinex/) (Scripps Orbit and Permanent Array Center), [IGS](ftp://igscb.jpl.nasa.gov/pub/station/) 
+(International GNSS Services).  
+**Real time data:** The above mentioned servers also provide realtime data of the RINEX files for select stations. 
 
-2. NOAA NEXRAD reflectivity products: Our data pipeline includes pulling data from the NOAA NEXRAD reflectivity database
-from [Amazon S3](https://aws.amazon.com/noaa-big-data/nexrad/). 
+2. Meteorological data: Since most of the GNSS stations in our study do not have co-located weather stations we interpolate
+the meterological observations from a network of weather stations operated by NOAA [ASOS](http://www.nws.noaa.gov/asos/)(Automates Surface Observing Systems). 
+These stations record pressure, relative humidity and temperature in 30 minute intervals. After extensively searching the web for
+the meteorological data from ASOS stations in the 30 minute intervals, we obtained the data for the entire year of 2014 from 
+Dr. Teresa Van Hove from [UCAR COSMIC](http://www.suominet.ucar.edu/index.html)(Constellation Observing System for Meteorology, Ionosphere, and Climate)
+program. We downloaded the meteorological data for the year 2014 for select stations from a UCAR server from a link provided by
+Dr. Teresa Van Hove. 
+**real time data** The realtime feed from the ASOS stations is distributed thru the LDM protocol. Dr. Teresa also provided us with
+a LDM link so that we can get a feed of the real time ASOS data (suomildm1.cosmic.ucar.edu).  
 
-3. Meteorological data: Since the GNSS stations do not have co-located meteorological sensore we use a meterological network called
-the [ASOS (Automates Surface Observing Systems)](http://www.nws.noaa.gov/asos/). This being the crucial ingredient in calculating
-high resolution water vapor measurements from our network og GNSS stations were not openly available online after a thorough search. 
-We finally got the data for the ASOS stations from UCAR COSMIC(Constellation Observing System for Meteorology, Ionosphere, and Climate) program
-where Dr. Teresa Van Hove gave us surface meterological observations for the entire year of 2014 from over a 100 ASOS stations. 
-We use this data to and interpolate it to our closest GNSS station. 
+2. NOAA NEXRAD reflectivity products: We obtain the level III radar reflectivity products from the [NOAA NCDC](http://www.ncdc.noaa.gov/data-access/radar-data)
+archive. 
+**real time data** For real time operation we are developing a script which pulls the level II reflectivity products from
+NOAA NEXRAD reflectivity database on [Amazon S3](https://aws.amazon.com/noaa-big-data/nexrad/). 
 
 ## Open Source Software
 
 We use freely available software to process and analyse our data. 
 
-1. GAMIT (GPS Analysis at MIT): The GAMIT software package takes in the input RINEX observation and meterological files
-and processes the IPW for each station
+1. GAMIT (GPS Analysis at MIT): The [GAMIT](http://www-gpsg.mit.edu/~simon/gtgk/) software package takes in the 
+input RINEX observation(carrier phase and pseudo range data) and meterological files and processes the IPW for each station. 
+
+2. Python: The development of our nowcasting system is in python and we use the machine learning library 
+[scikit-learn](http://scikit-learn.org/stable/). 
 
 # Data Pipeline
 
@@ -134,15 +154,15 @@ The above mentioned algorithm can be summarized with the following concept of op
 
 10. For each grid point
 
-   1. Calculate average NIPW for past 4 time epochs in 33 by 33 region around grid point.
+  1. Calculate average NIPW for past 4 time epochs in 33 by 33 region around grid point.
 
-   2. Ditto for reflectivity.
+  2. Ditto for reflectivity.
 
-   3. Feed the above 8-vector into the appropriate trained random forest classifer to get the precipitation probability for the grid point for 1-hour in the future.
+  3. Feed the above 8-vector into the appropriate trained random forest classifer to get the precipitation probability for the grid point for 1-hour in the future.
 
-   4. If probability exceeds a given threshold, set the grid point to 1 (will rain next hour), otherwise set it to 0 (won’t rain next hour).
+  4. If probability exceeds a given threshold, set the grid point to 1 (will rain next hour), otherwise set it to 0 (won’t rain next hour).
 
-   5. FOR REAL-TIME OPERATION COULD UPDATE LEARNING BASED ON PERFORMANCE DURING LAST EPOCH
+  5. FOR REAL-TIME OPERATION COULD UPDATE LEARNING BASED ON PERFORMANCE DURING LAST EPOCH
 
 11. End
 
