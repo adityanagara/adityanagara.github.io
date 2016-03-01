@@ -9,7 +9,7 @@ permalink: vaisala-weather-data
 Water vapor plays an important role in the atmosphere as it holds water in the vapor form which is
 capable of traveling both horizontally and vertically over a short span of time. This movement of water 
 vapor thus greatly affect the weather in a vary short time scale (the next few hours). Thus by measuring this quantity
-we can make better predictions on the weather in the near future. 
+with sufficient spatial and temporal resolution we can understand and predict severe storms better. 
 
 If this is the case why are people not making use of water vapor measurements for better predicting the weather? The answer 
 is that the amount of water vapor at any given time and at a given location is very difficult to measure. We thus believe
@@ -22,13 +22,27 @@ While radiosondes have the advantage that they can measure the vertical distribu
 typically only launched two times a day (at 0000 and 1200 UTC) and from only a handful of locations 
 (the entire CONUS is covered by a mere 90 radiosonde launch sites). 
  
- 2. Radiometers
+ 2. Radiometers: Ground-based water vapor radiometers measure the background microwave radiation emitted by 
+ atmospheric water vapor along a given line of site. 
+ An advantage of these instruments is their ability to make continuous measurements of water vapor. 
+ Disadvantages are cost, calibration, and sparse spatial deployment. They are also limited in that 
+ they do not work when it is raining.
  
- 3. Satellites
+ 3. Satellites: The GOES (Geostationary Operational Environmental Satellite) system provides two sources of 
+ information about the water vapor \cite{forsythe2015multisensor}: imagery through its water vapor channel 
+ (at 4km spatial resolution, 15 min temporal resolution), and sounder retrievals (at 20km spatial resolution, 
+ 1hr temporal resolution). Both of these observations, however, are negatively impacted by cloud cover.
  
- 4. GPS-Meteorology
+ 4. GPS-Meteorology: GPS-meteorology (GPS-Met) is a technique that allows GPS receivers to simultaneously perform the 
+ multiple functions of position estimation and precipitable water vapor estimation. For a given GPS receiver, 
+ precipitable water vapor estimates can be made with 30-minute temporal resolution. In regions, such as the middle 
+ and western U.S., where there is a high density of Continuously Operated GPS Reference Stations (CORS), 
+ techniques have been developed to combine the water vapor measurements from multiple stations into 2D and 
+ 3D water vapor fields. The spatial resolution of the field depends on the density of GPS stations (spatial Nyquist). 
+ While GPS-Met currently cannot provide the spatial and temporal resolution of that of GOES satellite, 
+ it has the advantage that it is accurate in all weather conditions and not impacted by clouds or precipitation.
 
-Our solution fo the Vaisala Open Weather data challenge is focused on using open source GPS data from a dense network 
+Our solution for the Vaisala Open Weather data challenge is focused on using open source GPS data from a dense network 
 of GPS stations along with in-situ surface meterological observations to obtain a quantity called IPW or Integrated 
 Precipitable Water Vapor. 
 
