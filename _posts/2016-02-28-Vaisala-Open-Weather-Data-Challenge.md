@@ -128,8 +128,8 @@ also converted from its native polar coordinates to cartesian coordinates to mat
 video shows the reflectivity fields overlapped over the normalized precipitable water fields for a storm case on May 8th 2014 UTC. 
 
 {:.center} 
-<iframe style="display: inline-block;" width="250" height="315" src="https://www.youtube.com/embed/2qXhBIHlfaM" frameborder="0" allowfullscreen></iframe>
-<img style="display: inline-block;" src="/pictures/colour_bar.png" width="200" height="315" />
+<iframe style="display: inline-block;" width="400" height="315" src="https://www.youtube.com/embed/2qXhBIHlfaM" frameborder="0" allowfullscreen></iframe>
+<img style="display: inline-block;" src="/pictures/colour_bar.png" width="200" height="315" align="right" />
 Our initial machine learning experiment is to learn Random Forest Classifier to predict rain
 or no rain(rain defined as pixel points exceeding 24 dbZ) 1 hour into the future for each pixel based 
 on the last 4 time steps of precipitable water vapor and reflectivity fields at 30 minute intervals. 
