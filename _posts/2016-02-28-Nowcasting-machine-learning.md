@@ -2,8 +2,8 @@
 layout: post
 title: Engineering a Nowcasting System using Open Data Sources
 comments: true 
-redirect_from: "/2016/02/28/Vaisala-Open-Weather-Data-Challenge"
-permalink: vaisala-weather-data 
+date:   2016-02-28
+permalink: nowcasting-machine-learning
 ---
 # Introduction
 Water vapor plays an important role in the atmosphere as it holds water in the vapor form which is
@@ -104,11 +104,11 @@ The near real-time water vapor system operated by [UCAR](http://www.suominet.uca
 The figure below shows a map of all the sensors used in this study with respect to the KFWS radar in Dallas Fort Worth. 
 
 {:.center}
-![Figure 1. Sensor map in the Dallas Fort-Worth area Texas](/pictures/GPS_ASOS_Locations.png)
+![Figure 1. Sensor map in the Dallas Fort-Worth area Texas](/assets/GPS_ASOS_Locations.png)
 
 The following figure summarizes the data pipeline which includes all of out input data bases to our output products. 
 {:.center}
-![Figure 1. Data pipeline to realize this nowcasting algorithm in realtime](/pictures/data_pipeline.png)
+![Figure 1. Data pipeline to realize this nowcasting algorithm in realtime](/assets/data_pipeline.png)
 
 # Preliminary Experiments
 From the data sources listed above we obtain the GNSS RINEX files for all 44 stations, met observations from 40 ASOS stations
@@ -143,7 +143,7 @@ sets of experiments as follows:
 
 The results of the above three experiments are evaluated using a precision recall curve as shown below. 
 
-![Figure 1. Nowcasting Schematic](/pictures/random_forest_average_precision.png)
+![Figure 1. Nowcasting Schematic](/assets/random_forest_average_precision.png)
 
 As seen by the precision recall curves we can observe that the average precision score (area under the curve) evaluated by
 varying the decision probability for the IPW and reflectivity feature is the highest. The random forest classifier thus performs
