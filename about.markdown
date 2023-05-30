@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-<img src="/assets/profile.jpg" alt="Drawing" style="width: 200px;"/>
+<img src="/assets/profile.jpeg" alt="Drawing" style="width: 20em;"/>
 
 
 Hello and welcome to my personal website. I am a software engineer working at Microsoft. Before that
